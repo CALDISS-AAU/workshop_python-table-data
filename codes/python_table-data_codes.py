@@ -83,19 +83,6 @@ ess['bmi'] = ess['weight'] * (ess['height']/100)**2
 #     
 # 2. Lav en aldersvariabel (datasættet er fra 2014)
 
-# In[61]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
-#import seaborn as sns
-import matplotlib.pyplot as plt
-
-#sns.set()
-#sns.lineplot(ess['height'], ess['weight'])
-
-plt.scatter(ess['height'], ess['weight'])
-
-
 # ## Modeller/estimater i python
 # 
 # Typisk arbejder vi i samfundsvidenskab med statistisker modeller til at producere estimater: Hvor meget bliver Y påvirket af X, og hvor sikre er vi på det estimat?
@@ -147,10 +134,10 @@ sns.pairplot(data, hue='species', height = 2.5)
 
 # Lad os se nærmere på sammenhængen mellem "petal length" og "petal width"
 
-# In[65]:
+# In[110]:
 
 
-plt.figure(figsize=(15,10)) #sætter størrelsen på figuren
+plt.figure(figsize=(10,6)) #sætter størrelsen på figuren
 sns.regplot(x = 'petal_length', y = 'petal_width', data = data) #regplot - scatterplot med fitted regressionslinje
 
 
@@ -222,7 +209,7 @@ print("R2                     ", model.score(X, Y))
 # In[70]:
 
 
-plt.figure(figsize=(15,10)) #sætter størrelsen på figuren
+plt.figure(figsize=(10,6)) #sætter størrelsen på figuren
 sns.regplot(x = 'height', y = 'weight', data = ess) #scatterplot af højde og vægt med fitted regressionslinje
 
 
@@ -309,7 +296,11 @@ def cgts_fill( gndr ):
 ess['cgtsday'].fillna(ess['gndr'].map(cgts_fill)).head() #erstat med middel for køn
 
 
-# Bemærk at vi ved at kalde metoderne ikke ændrer på noget. Vi skal derfor overskrive data eller lave kopi af data. Som altid er det bedst at bevare det oprindelige datasæt. Samtidig giver det i arbejde med modeller som disse mening at tænke det sådan, at man arbejder hen mod en udgave af datasættet, som skal bruges til en bestemt model.
+# Bemærk at vi ved at kalde metoderne ikke ændrer på noget. Vi skal derfor overskrive data eller lave kopi af data. 
+# 
+# Som altid er det bedst at bevare det oprindelige datasæt. 
+# 
+# Samtidig giver det i arbejde med modeller som disse mening at tænke det sådan, at man arbejder hen mod en udgave af datasættet, som skal bruges til en bestemt model.
 
 # ## FÆLLESØVELSE: Hvordan får vi lavet en model mellem højde og vægt?
 # 
@@ -391,7 +382,9 @@ ess['happycat'].dtypes
 
 # ### Kategorisk og numerisk i python
 # 
-# Når man arbejder med kategoriske data i python, skal man tage aktiv beslutning om, hvordan variablen skal behandles. I modsætning til andre statistikprogrammer, har kategorier i python (pandas) ikke en underliggende numerisk værdi.
+# Når man arbejder med kategoriske data i python, skal man tage aktiv beslutning om, hvordan variablen skal behandles. 
+# 
+# I modsætning til andre statistikprogrammer, har kategorier i python (pandas) ikke en underliggende numerisk værdi.
 # 
 # Vi kan godt få de underliggende koder, men det er ikke nogen, som vi kan refere til.
 
@@ -425,7 +418,7 @@ any(ess['happycat'] == '1')
 # 
 # Skal variablen behandles som interval, skal variablen derfor kodes om til numerisk.
 
-# ### Nominalt og ordinale variable i python
+# ### Nominale og ordinale variable i python
 # 
 # Inden vi ser på den numeriske konvertering, så lad os først kigge på, hvordan vi adskiller mellem nominale og ordinale i python.
 # 
@@ -461,14 +454,12 @@ ess['alcfreq'].astype('category') #denne kommando returnerer variablen som nomin
 # 
 # På vores egen type kan vi specificere, at værdier skal behandles ordinalt (`ordered = True`). De sættes i rangorden efter den rækkefølge, som de skrives ind.
 
-# In[83]:
+# In[111]:
 
 
 from pandas.api.types import CategoricalDtype
 
-alc_cats = CategoricalDtype(categories = ['Never', 'Less than once a month', 'Once a month', '2-3 times a month', 
-                                          'Once a week', 'Several times a week', 'Every day'], ordered = True)
-
+alc_cats = CategoricalDtype(categories = ['Never', 'Less than once a month', 'Once a month', '2-3 times a month', 'Once a week', 'Several times a week', 'Every day'], ordered = True)
   
 ess['alcfreq'] = ess['alcfreq'].astype(alc_cats)
 
